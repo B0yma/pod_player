@@ -160,6 +160,11 @@ class PodPlayerController {
     _ctr.isMute ? await _ctr.unMute() : await _ctr.mute();
   }
 
+  /// toggle the volume
+  Future<void> setVolume(double newVolume) async {
+    await _ctr.setVolume(newVolume);
+  }
+
   ///Dispose pod video player controller
   void dispose() {
     _isCtrInitialised = false;
@@ -227,9 +232,9 @@ class PodPlayerController {
   ///
   /// If onToggleFullScreen is set, you must handle the device
   /// orientation by yourself.
-  void enableFullScreen() {
+  void enableFullScreen(VoidCallback? onVolumeClick) {
     uni_html.document.documentElement?.requestFullscreen();
-    _ctr.enableFullScreen(getTag);
+    _ctr.enableFullScreen(getTag, onVolumeClick);
   }
 
   /// Disables fullscreen mode.

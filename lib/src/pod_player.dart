@@ -45,6 +45,8 @@ class PodVideoPlayer extends StatefulWidget {
   final Color? backgroundColor;
   final DecorationImage? videoThumbnail;
 
+  final VoidCallback? onVolumeClick;
+
   /// Optional callback, fired when full screen mode toggles.
   ///
   /// Important: If this method is set, the configuration of [DeviceOrientation]
@@ -72,6 +74,7 @@ class PodVideoPlayer extends StatefulWidget {
     this.videoThumbnail,
     this.onToggleFullScreen,
     this.onLoading,
+    this.onVolumeClick,
   }) {
     addToUiController();
   }
@@ -256,6 +259,7 @@ class _PodVideoPlayerState extends State<PodVideoPlayer>
             videoPlayerCtr: podCtr.videoCtr!,
             videoAspectRatio: videoAspectRatio,
             tag: widget.controller.getTag,
+            onVolumeClick: widget.onVolumeClick,
           );
         },
       );
@@ -264,6 +268,7 @@ class _PodVideoPlayerState extends State<PodVideoPlayer>
         videoPlayerCtr: _podCtr.videoCtr!,
         videoAspectRatio: videoAspectRatio,
         tag: widget.controller.getTag,
+        onVolumeClick: widget.onVolumeClick,
       );
     }
   }

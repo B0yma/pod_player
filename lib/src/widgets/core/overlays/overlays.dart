@@ -5,7 +5,10 @@ class _VideoOverlays extends StatelessWidget {
 
   const _VideoOverlays({
     required this.tag,
+    required this.onVolumeClick,
   });
+
+  final VoidCallback? onVolumeClick;
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +55,8 @@ class _VideoOverlays extends StatelessWidget {
             child: Stack(
               fit: StackFit.passthrough,
               children: [
-                if (!kIsWeb) _MobileOverlay(tag: tag),
-                if (kIsWeb) _WebOverlay(tag: tag),
+                if (!kIsWeb) _MobileOverlay(tag: tag, onVolumeClick: onVolumeClick,),
+                if (kIsWeb) _WebOverlay(tag: tag, onVolumeClick: onVolumeClick,),
               ],
             ),
           );

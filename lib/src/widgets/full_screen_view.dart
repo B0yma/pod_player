@@ -2,8 +2,11 @@ part of 'package:pod_player/src/pod_player.dart';
 
 class FullScreenView extends StatefulWidget {
   final String tag;
+  final VoidCallback? onVolumeClick;
+
   const FullScreenView({
     required this.tag,
+    required this.onVolumeClick,
     super.key,
   });
 
@@ -66,10 +69,10 @@ class _FullScreenViewState extends State<FullScreenView>
                       ? loadingWidget
                       : podCtr.videoCtr!.value.isInitialized
                           ? _PodCoreVideoPlayer(
-                              tag: widget.tag,
+                    tag: widget.tag,
                               videoPlayerCtr: podCtr.videoCtr!,
-                              videoAspectRatio:
-                                  podCtr.videoCtr?.value.aspectRatio ?? 16 / 9,
+                              videoAspectRatio: podCtr.videoCtr?.value.aspectRatio ?? 16 / 9,
+                              onVolumeClick: widget.onVolumeClick,
                             )
                           : loadingWidget,
                 ),

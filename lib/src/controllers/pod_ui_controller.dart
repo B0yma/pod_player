@@ -15,4 +15,6 @@ class _PodUiController extends _PodBaseController {
 
   ///video player labels
   PodPlayerLabels podPlayerLabels = const PodPlayerLabels();
+
+  VoidCallback? onVolumeClick;
 }

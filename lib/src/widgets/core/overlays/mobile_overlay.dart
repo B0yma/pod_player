@@ -2,9 +2,11 @@ part of 'package:pod_player/src/pod_player.dart';
 
 class _MobileOverlay extends StatelessWidget {
   final String tag;
+  final VoidCallback? onVolumeClick;
 
   const _MobileOverlay({
     required this.tag,
+    required this.onVolumeClick,
   });
 
   @override
@@ -80,7 +82,7 @@ class _MobileOverlay extends StatelessWidget {
         ),
         Align(
           alignment: Alignment.bottomLeft,
-          child: _MobileOverlayBottomControlles(tag: tag),
+          child: _MobileOverlayBottomControlles(tag: tag, onVolumeClick: onVolumeClick,),
         ),
       ],
     );

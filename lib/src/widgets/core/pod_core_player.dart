@@ -4,11 +4,13 @@ class _PodCoreVideoPlayer extends StatelessWidget {
   final VideoPlayerController videoPlayerCtr;
   final double videoAspectRatio;
   final String tag;
+  final VoidCallback? onVolumeClick;
 
   const _PodCoreVideoPlayer({
     required this.videoPlayerCtr,
     required this.videoAspectRatio,
     required this.tag,
+    required this.onVolumeClick,
   });
 
   @override
@@ -25,6 +27,7 @@ class _PodCoreVideoPlayer extends StatelessWidget {
             event: value,
             appContext: ctrx,
             tag: tag,
+            onVolumeClick: onVolumeClick,
           ),
           child: Stack(
             fit: StackFit.expand,
@@ -68,7 +71,7 @@ class _PodCoreVideoPlayer extends StatelessWidget {
                   },
                 ),
               ),
-              _VideoOverlays(tag: tag),
+              _VideoOverlays(tag: tag, onVolumeClick: onVolumeClick,),
               IgnorePointer(
                 child: GetBuilder<PodGetXVideoController>(
                   tag: tag,

@@ -180,9 +180,11 @@ class _VideoPlaybackSelectorMob extends StatelessWidget {
 
 class _MobileOverlayBottomControlles extends StatelessWidget {
   final String tag;
+  final VoidCallback? onVolumeClick;
 
   const _MobileOverlayBottomControlles({
     required this.tag,
+    required this.onVolumeClick,
   });
 
   @override
@@ -198,6 +200,30 @@ class _MobileOverlayBottomControlles extends StatelessWidget {
         children: [
           Row(
             children: [
+              GetBuilder<PodGetXVideoController>(
+                tag: tag,
+                id: 'volume',
+                builder: (podCtr) => MaterialIconButton(
+                  toolTipMesg: podCtr.isMute
+                      ? podCtr.podPlayerLabels.unmute ??
+                      'Unmute${kIsWeb ? ' (m)' : ''}'
+                      : podCtr.podPlayerLabels.mute ??
+                      'Mute${kIsWeb ? ' (m)' : ''}',
+                  color: itemColor,
+                  onPressed: (){
+                    if (onVolumeClick != null){
+                      onVolumeClick?.call();
+                    }else{
+                      podCtr.toggleMute();
+                    }
+                  },
+                  child: Icon(
+                    podCtr.isMute
+                        ? Icons.volume_off_rounded
+                        : Icons.volume_up_rounded,
+                  ),
+                ),
+              ),
               const SizedBox(width: 12),
               GetBuilder<PodGetXVideoController>(
                 tag: tag,
@@ -234,7 +260,7 @@ class _MobileOverlayBottomControlles extends StatelessWidget {
                     if (podCtr.isFullScreen) {
                       podCtr.disableFullScreen(context, tag);
                     } else {
-                      podCtr.enableFullScreen(tag);
+                      podCtr.enableFullScreen(tag, onVolumeClick);
                     }
                   } else {
                     podCtr.toggleVideoOverlay();

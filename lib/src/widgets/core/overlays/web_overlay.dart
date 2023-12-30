@@ -4,7 +4,10 @@ class _WebOverlay extends StatelessWidget {
   final String tag;
   const _WebOverlay({
     required this.tag,
+    required this.onVolumeClick,
   });
+
+  final VoidCallback? onVolumeClick;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +19,7 @@ class _WebOverlay extends StatelessWidget {
           child: _VideoGestureDetector(
             tag: tag,
             onTap: podCtr.togglePlayPauseVideo,
-            onDoubleTap: () => podCtr.toggleFullScreenOnWeb(context, tag),
+            onDoubleTap: () => podCtr.toggleFullScreenOnWeb(context, tag, onVolumeClick),
             child: const ColoredBox(
               color: overlayColor,
               child: SizedBox.expand(),
@@ -27,6 +30,7 @@ class _WebOverlay extends StatelessWidget {
           alignment: Alignment.bottomLeft,
           child: _WebOverlayBottomControlles(
             tag: tag,
+            onVolumeClick: onVolumeClick,
           ),
         ),
         Positioned.fill(
@@ -69,9 +73,11 @@ class _WebOverlay extends StatelessWidget {
 
 class _WebOverlayBottomControlles extends StatelessWidget {
   final String tag;
+  final VoidCallback? onVolumeClick;
 
   const _WebOverlayBottomControlles({
     required this.tag,
+    required this.onVolumeClick,
   });
 
   @override
@@ -112,7 +118,13 @@ class _WebOverlayBottomControlles extends StatelessWidget {
                                 : podCtr.podPlayerLabels.mute ??
                                     'Mute${kIsWeb ? ' (m)' : ''}',
                             color: itemColor,
-                            onPressed: podCtr.toggleMute,
+                            onPressed: (){
+                              if (onVolumeClick != null){
+                                onVolumeClick?.call();
+                              }else{
+                                podCtr.toggleMute();
+                              }
+                            },
                             child: Icon(
                               podCtr.isMute
                                   ? Icons.volume_off_rounded
@@ -200,10 +212,10 @@ class _WebOverlayBottomControlles extends StatelessWidget {
       } else {
         if (kIsWeb) {
           uni_html.document.documentElement?.requestFullscreen();
-          podCtr.enableFullScreen(tag);
+          podCtr.enableFullScreen(tag, onVolumeClick);
           return;
         } else {
-          podCtr.enableFullScreen(tag);
+          podCtr.enableFullScreen(tag, onVolumeClick);
         }
       }
     } else {
